@@ -33,7 +33,7 @@
         <v-list :max-width="'10rem'" class="py-0">
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title v-if="this.$auth.loggedIn">{{ JSON.stringify(this.$auth.user) }}</v-list-item-title>
+              <v-list-item-title v-if="this.$auth.loggedIn">{{ this.$auth.user.username }}</v-list-item-title>
               <v-list-item-title v-else>Chưa đăng nhập</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -78,7 +78,7 @@
       v-model="drawer"
       width="260"
     >
-      <nuxt-link to="/inspire">
+      <nuxt-link to="/dashboard">
         <v-toolbar dark color="blue darken-3">
           <v-toolbar-title>
             <div class="ml-0 pl-3 text-decoration-none font-weight-bold">
@@ -120,7 +120,13 @@ export default {
   },
   methods: {
     async logout() {
-      console.log("logout")
+     try{
+       await this.$auth.logout().then((res)=>{
+         this.$router.push({path: 'login'})
+       })
+     }catch (err){
+       console.log(err)
+     }
     }
   }
 }

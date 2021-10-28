@@ -17,3 +17,8 @@
     </v-col>
   </v-row>
 </template>
+<script>
+export default {
+  middleware: "named-route",
+}
+</script>

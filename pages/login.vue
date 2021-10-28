@@ -104,8 +104,10 @@ export default {
               password: this.password
             }
           }).then((res) => {
-            console.log(res.data.access_token);
-            this.$auth.setUserToken(res.data.access_token)
+            // console.log(res.data.access_token);
+            this.$auth.setUserToken(res.data.access_token);
+            // console.log(this.$auth.user, this.$auth.loggedIn)
+            this.$router.push({name: 'dashboard'})
           })
         } catch (error) {
           this.error_mess = error.response.data.message

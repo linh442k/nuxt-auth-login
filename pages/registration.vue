@@ -17,6 +17,7 @@
 export default {
   name: "registration",
   layout: "login",
+  middleware: "named-route",
 }
 </script>
 

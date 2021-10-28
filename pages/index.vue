@@ -77,7 +77,6 @@
 </template>
 <script>
 export default {
-  middleware: 'auth'
+  middleware: 'named-route'
 }
-
 </script>

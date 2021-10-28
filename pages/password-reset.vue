@@ -17,6 +17,7 @@
 export default {
   name: "password-reset",
   layout: "login",
+  middleware: "named-route",
 }
 </script>
 
