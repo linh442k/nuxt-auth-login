@@ -8,6 +8,9 @@
           <!--          upper login form-->
           <form @submit.prevent="login">
             <div class="upper-login-form pa-4">
+              <v-row no-gutters justify="center" align="center" class="fill-height my-4">
+                <v-img src="/logo.png" max-width="14.1875rem"></v-img>
+              </v-row>
               <v-alert v-if="incorrect_info" width="100%" outlined class="mb-3" type="error">
                 {{ error_mess }}
               </v-alert>
@@ -28,26 +31,43 @@
                 :loading="loading"
                 v-model="password"/>
             </div>
-            <!--            <default-btn-->
-            <!--              :vuetify-class="'text-uppercase white&#45;&#45;text px-2 ml-2'"-->
-            <!--              :color="'blue'"-->
-            <!--              :depressed="true"-->
-            <!--              :type="'submit'"-->
-            <!--              :content="'đăng nhập'"-->
-            <!--              :elevation="1"-->
-            <!--              :loading="loading"-->
-            <!--              id="login-btn"-->
-            <!--            />-->
-            <v-btn
-              class="text-uppercase white--text px-2 ml-2"
-              :color="'blue'"
-              :depressed="true"
-              :type="'submit'"
-              :elevation="1"
-              :loading="loading"
-              id="login-btn">
-              Đăng nhập
-            </v-btn>
+            <div class="bottom-login-form pa-2">
+              <v-row no-gutters class="fill-height" justify="center">
+                <v-col>
+                  <v-btn
+                    class="text-uppercase mx-2 px-4"
+                    :color="'primary'"
+                    :text="true"
+                    :depressed="true"
+                    :nuxt="true"
+                    :to="'password-reset'"
+                  >quên mật khẩu
+                  </v-btn>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col>
+                  <v-btn
+                    class="text-uppercase px-4"
+                    :color="'primary'"
+                    :text="true"
+                    :depressed="true"
+                    :nuxt="true"
+                    :to="'registration'"
+                  >đăng kí
+                  </v-btn>
+                </v-col>
+                <v-btn
+                  class="text-uppercase white--text px-2 ml-2"
+                  :color="'blue'"
+                  :depressed="true"
+                  :type="'submit'"
+                  :elevation="1"
+                  :loading="loading"
+                  id="login-btn">
+                  Đăng nhập
+                </v-btn>
+              </v-row>
+            </div>
           </form>
         </validation-observer>
       </no-ssr>
@@ -58,7 +78,7 @@
 <script>
 export default {
   name: "login-page",
-  middleware: "named-router",
+  middleware: "named-route",
   layout: "login",
   data: () => ({
     username: "",
@@ -69,6 +89,7 @@ export default {
   }),
   methods: {
     async login() {
+      this.incorrect_info = false
       this.loading = true
       const isValid = await this.$refs.observer.validate();
       if (!isValid) {
@@ -82,7 +103,10 @@ export default {
               username: this.username,
               password: this.password
             }
-          }).then((res) => {console.log(res.data.access_token); this.$auth.setUserToken(res.data.access_token)})
+          }).then((res) => {
+            console.log(res.data.access_token);
+            this.$auth.setUserToken(res.data.access_token)
+          })
         } catch (error) {
           this.error_mess = error.response.data.message
           this.incorrect_info = true
