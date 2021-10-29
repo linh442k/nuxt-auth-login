@@ -8,7 +8,9 @@
       v-model="data"
       :name-rule="'required'"
       :length-rule="'required|numeric|between:0,50'"
-      :component-id="'text_area_default'">
+      :component-id="'text_area_default'"
+    :tooltip="'Append Parameter'"
+    :dialog-title="'Doi Param'">
     </text-area-with-button>
   </div>
 </template>
