@@ -3,12 +3,12 @@
     <text-area-with-button
       :vuetify-class="'mx-3'"
       :label="'Nhãn textarea'"
-      :vee-name="'textare'"
-      :rules="'required'"
+      :vee-name="'Nhãn textarea'"
+      :rules="''"
       v-model="data"
-    :name-rule="'required'"
-    :length-rule="'required|numeric|between:0,50'">
-
+      :name-rule="'required'"
+      :length-rule="'required|numeric|between:0,50'"
+      :component-id="'text_area_default'">
     </text-area-with-button>
   </div>
 </template>
