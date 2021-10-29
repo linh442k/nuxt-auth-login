@@ -121,7 +121,7 @@ export default {
   methods: {
     async logout() {
      try{
-       await this.$auth.logout().then((res)=>{
+       await this.$auth.logout().then(()=>{
          this.$router.push({path: 'login'})
        })
      }catch (err){
