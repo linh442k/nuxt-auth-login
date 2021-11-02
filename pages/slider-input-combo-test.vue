@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slider-input-combo v-model="wallet_data"/>
+    <slider-input-combo v-model="walletData"/>
   </div>
 </template>
 
@@ -9,13 +9,32 @@ export default {
   name: "slider-input-combo-test",
   layout: "dashboard",
   data: () => ({
-    wallet_data: {
-      "Tổng": 4000000,
-      "ăn uống": 1000000,
-      "cà phê": 500000,
-      "tiết kiệm": 1200000,
-      "phòng": 600000,
-    }
+    walletData: [
+      {
+        name: "total",
+        balance: 4000000.75,
+      },
+      {
+        name: "mms",
+        balance: 1200000,
+        active: true,
+      }
+      , {
+        name: "cms",
+        balance: 800000,
+        active: true,
+      },
+      {
+        name: "cms2",
+        balance: 500000,
+        active: false,
+      },
+      {
+        name: "lms",
+        balance: 600000,
+        active: false,
+      }
+    ]
   }),
 }
 </script>

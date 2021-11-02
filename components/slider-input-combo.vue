@@ -1,15 +1,26 @@
 <template>
   <div>
-    <div class="mb-3 text-h5 pl-8">
-      Giá trị ví {{wallet_text[0]}}: {{wallet_value[0]}}
+    <div class="mb-1 text-h5 pl-8">
+      Giá trị ví {{ walletData[0].name }}:
+      {{ (walletData[0].balance).toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }}
+      VND
+      <div class="subtitle-1 mt-2">Phân bổ được:
+        {{ remainingDivisibleWallet.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }}
+        VND
+      </div>
+      <div class="subtitle-2 mt-2">Còn lại:
+        {{ remainingWallet.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }}
+        VND
+      </div>
     </div>
-    <div v-for="(item, index) in wallet_value" v-if="index!==0">
-      <slider-with-input
-      v-model="wallet[wallet_text[index]]"
-      :header="wallet_text[index]"
-      :max-value="max_wallet_value[index]"
-      />
 
+    <div v-for="(item, index) in subWallets">
+      <slider-with-input
+        v-model="walletData[index+1].balance"
+        :header="item.name"
+        :max-value="maxSubWalletValue[index]"
+        :disable="!item.active"
+      />
     </div>
   </div>
 </template>
@@ -19,35 +30,39 @@ export default {
   name: "slider-input-combo",
   props: {
     value: {
-      type: Object,
-      default: null
+      type: Array,
+      default: []
     },
   },
   data: () => {
     return {
-      wallet: null,
+      walletData: [],
     }
   },
-  computed : {
-    wallet_text: function(){
-      return Object.keys(this.wallet);
+  computed: {
+    subWallets: function () {
+      return this.walletData.slice(1, this.walletData.length);
     },
-    wallet_value: function(){
-      return Object.values(this.wallet);
+    remainingWallet: function () {
+      return this.walletData[0].balance - this.subWallets.reduce((a, b) =>
+        ({balance: a.balance + b.balance})).balance
     },
-    max_wallet_value: function (){
-      return this.wallet_value.map((item, index)=>{
-        if(index === 0) return this.wallet_value[0] - this.wallet_value.slice(1, this.wallet_value.length).reduce((a,b)=>a+b);
-        return this.wallet_value[0] - this.wallet_value.slice(1, this.wallet_value.length).reduce((a,b)=>a+b) + item
+    remainingDivisibleWallet: function () {
+      return this.walletData[0].balance - this.subWallets.reduce((a, b) =>
+        ({balance: (a.active ? 0 : a.balance) + (b.active ? 0 : b.balance)})).balance
+    },
+    maxSubWalletValue: function () {
+      return this.subWallets.map((item) => {
+        return this.walletData[0].balance - this.subWallets.reduce((a, b) =>
+          ({balance: a.balance + b.balance})).balance + item.balance
       })
     }
   },
   created() {
-    this.wallet = this.value
-    // console.log(this.wallet)
-    // console.log(this.wallet_value)
-    // console.log(this.wallet_text)
-    // console.log(this.max_wallet_value)
+    this.walletData = this.value
+    // console.log(this.subWallets)
+    // console.log(this.remainingWallet)
+    // console.log(this.maxSubWalletValue)
   },
 }
 </script>
