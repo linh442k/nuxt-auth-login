@@ -27,7 +27,7 @@
               :max="maxValue"
               :min="minValue"
               hide-details
-              @mouseup="changeParent"
+              @change="changeParent"
               :color="sliderColor"
               :track-color="sliderColor"
               :disabled="disable"
@@ -35,7 +35,7 @@
             </v-slider>
           </v-col>
           <v-col cols="12" class="text-right mr-3 pt-0" :class="{'text--disabled':disable}">
-            {{ maxValue.toFixed(2).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') }} VND
+            {{ formatCurrency(maxValue) }} VND
           </v-col>
         </v-row>
       </v-col>
@@ -87,11 +87,20 @@ export default {
     },
     sliderColor: function () {
       const color_index = this.sliderValue / this.maxValue * 100;
-      if (color_index >= 100) return "red";
+      if (color_index >= 99) return "red";
       else if (color_index >= 80) return "orange";
       else if (color_index >= 60) return "yellow";
       else if (color_index >= 40) return "green";
       else return "blue";
+    }
+  },
+  watch: {
+    'value': {
+      handler(newVal, oldVal) {
+        this.sliderValue = newVal
+        // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+      },
+      deep: true
     }
   },
   data: () => {
@@ -116,6 +125,9 @@ export default {
       }
       // console.log(emitValue)
       this.$emit('input', emitValue)
+    },
+    formatCurrency(money, decimalPoint = 0) {
+      return (decimalPoint === 0 ? Math.floor(money) : money).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
   }
 

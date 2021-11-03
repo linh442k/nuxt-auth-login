@@ -11,17 +11,8 @@ export default {
   data: () => ({
     walletData: [
       {
-        name: "total",
-        balance: 4000000.75,
-      },
-      {
         name: "mms",
         balance: 1200000,
-        active: true,
-      }
-      , {
-        name: "cms",
-        balance: 800000,
         active: true,
       },
       {
@@ -29,6 +20,16 @@ export default {
         balance: 500000,
         active: false,
       },
+      {
+        name: "total",
+        balance: 4000000,
+      }
+      , {
+        name: "cms",
+        balance: 800000,
+        active: true,
+      },
+
       {
         name: "lms",
         balance: 600000,
